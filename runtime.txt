@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-python-3.11.7
-=======
 python-3.10.13
->>>>>>> 86f238b (Fix Python version and Injective SDK compatibility)
