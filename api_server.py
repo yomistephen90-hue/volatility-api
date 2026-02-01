@@ -621,22 +621,23 @@ async def general_exception_handler(request, exc):
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize on server startup"""
     logger.info(f"Starting {API_TITLE} v{API_VERSION}")
-    logger.info(f"Database: {DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}")
-    
-    # Test database connection
+    logger.info(
+        f"Database config → {DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
+    )
+
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM volatility_metrics")
-        count = cursor.fetchone()[0]
+        cursor.execute("SELECT 1")
         cursor.close()
         conn.close()
-        logger.info(f"✓ Database connected. {count} metrics available.")
-    except Exception as e:
-        logger.error(f"✗ Database connection failed: {e}")
 
+        logger.info("✓ Database connected successfully")
+
+    except Exception as e:
+        logger.error(f"⚠ Database unavailable at startup: {e}")
+        logger.warning("API will continue running without DB")
 
 @app.on_event("shutdown")
 async def shutdown_event():
