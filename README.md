@@ -6,9 +6,9 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
-Volatility Indicators API is a complete, developer-focused infrastructure service built for the **Ninja API Forge** contest on Injective. It provides real-time volatility metrics, technical indicators, and market analysis for Injective Protocol trading pairs.
+Volatility Indicators API is a complete, developer-focused infrastructure service, It provides real-time volatility metrics, technical indicators, and market analysis for Injective Protocol trading pairs.
 
 **Perfect for:**
 - Trading bots and automated strategies
@@ -19,7 +19,7 @@ Volatility Indicators API is a complete, developer-focused infrastructure servic
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### Real-Time Metrics
 - **24h, 4h, 1h Volatility** - Annualized standard deviation of returns
@@ -45,7 +45,7 @@ Volatility Indicators API is a complete, developer-focused infrastructure servic
 
 ---
 
-## 🚀 Quick Start (5 Minutes)
+## Quick Start (5 Minutes)
 
 ### 1. Install Dependencies
 
@@ -87,11 +87,11 @@ open http://localhost:8000/api/docs
 curl http://localhost:8000/api/volatility/0xa508cb32923323679f29d3b7155848cd07e6b40b9a60b5dd85b00d7a4e30fa70
 ```
 
-Done! 🎉
+Done! 
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 volatility-api/
@@ -117,7 +117,7 @@ volatility-api/
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 ### For Setup
 → **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Installation, configuration, verification
@@ -170,7 +170,7 @@ Monitor API and database status.
 
 ---
 
-## 💡 Use Cases
+## Use Cases
 
 ### 1. Trading Bot
 ```javascript
@@ -203,7 +203,7 @@ history = requests.get(f'/api/volatility/{market_id}/history?days=30')
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌──────────────────────┐
@@ -243,7 +243,7 @@ history = requests.get(f'/api/volatility/{market_id}/history?days=30')
 
 ---
 
-## 📊 Metrics Explained
+## Metrics Explained
 
 ### Volatility (24h, 4h, 1h)
 Annualized standard deviation of log returns.
@@ -271,7 +271,7 @@ Price + Moving Average ± 2 × Standard Deviations
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Run Full Test Suite
 ```bash
@@ -290,7 +290,7 @@ pytest test_api.py -v --cov
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
 ### Local Docker
 ```bash
@@ -320,7 +320,7 @@ See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md) for detailed instructions.
 
 ---
 
-## 📈 Performance
+## Performance
 
 ### Benchmarks
 - Single query: **< 100ms** (cached)
@@ -336,7 +336,7 @@ See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md) for detailed instructions.
 
 ---
 
-## 🛡️ Error Handling
+## Error Handling
 
 All errors return consistent format:
 ```json
@@ -355,7 +355,7 @@ All errors return consistent format:
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 ```bash
@@ -380,7 +380,7 @@ LOG_LEVEL=INFO
 
 ---
 
-## 📦 Dependencies
+## Dependencies
 
 **Core:**
 - FastAPI - Web framework
@@ -397,7 +397,7 @@ See `requirements.txt` for full list.
 
 ---
 
-## 🤝 Integration Examples
+## Integration Examples
 
 ### JavaScript
 ```javascript
@@ -418,39 +418,6 @@ vol = resp.json()['metrics']['volatility_24h']
 curl https://api.example.com/api/volatility/0xa508cb...
 ```
 
----
-
-## 📝 Contest Info
-
-**Contest:** Ninja API Forge - Injective  
-**Duration:** Jan 28 - Feb 15, 2026  
-**Category:** Developer API  
-
-This project focuses on **API infrastructure** rather than consumer applications, emphasizing:
-- ✓ Clean API design
-- ✓ Developer experience
-- ✓ Reliability & performance
-- ✓ Documentation quality
-- ✓ Practical utility
-
----
-
-## 🤖 Continuous Integration
-
-### GitHub Actions
-```yaml
-# Runs tests on push
-- pytest test_api.py --cov
-- Deploy to Railway if tests pass
-```
-
-### Health Monitoring
-```bash
-# Automated checks every 5 minutes
-curl https://api.example.com/health
-```
-
----
 
 ## 📚 Additional Resources
 
@@ -475,7 +442,7 @@ Potential features beyond v1.0:
 
 ---
 
-## 🐛 Known Issues & Limitations
+## Known Issues & Limitations
 
 - No API key authentication (add for production)
 - Data history limited to 90 days
@@ -488,17 +455,7 @@ Potential features beyond v1.0:
 
 MIT License - See LICENSE file
 
----
-
-## 🙏 Acknowledgments
-
-- Built for **Ninja API Forge** contest
-- Powered by **Injective Protocol**
-- Stack: **FastAPI**, **PostgreSQL**, **Pandas**
-
----
-
-## 💬 Support
+## Support
 
 ### Questions?
 1. Check [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
@@ -511,16 +468,6 @@ MIT License - See LICENSE file
 2. Check database: `psql volatility_api volatility -c "SELECT COUNT(*) FROM volatility_metrics"`
 3. View logs: Check console output or `api.log`
 
----
-
-## 📞 Contact
-
-- **GitHub:** (your repo)
-- **Twitter:** (your handle)
-- **Discord:** (your server)
-
----
 
 **Built with ❤️ for Injective traders, devs, and builders**
 
-Ready to use? Start with [SETUP_GUIDE.md](SETUP_GUIDE.md) →
