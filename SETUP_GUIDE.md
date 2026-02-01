@@ -9,7 +9,6 @@
 ## Installation (5 minutes)
 
 ### 1. Clone/Setup Your Project
-
 ```bash
 mkdir volatility-api
 cd volatility-api
@@ -20,13 +19,12 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 ### 2. Install Dependencies
-
 ```bash
-# Create requirements.txt with:
+# Install all dependencies
 pip install -r requirements.txt
 ```
 
-**requirements.txt:**
+**requirements.txt includes:**
 ```
 psycopg2-binary==2.9.9
 aiohttp==3.9.1
@@ -47,7 +45,6 @@ pip install psycopg2-binary aiohttp python-dotenv numpy pandas fastapi uvicorn
 ### 3. Setup PostgreSQL
 
 **Option A: Local PostgreSQL**
-
 ```bash
 # macOS with Homebrew
 brew install postgresql
@@ -66,17 +63,36 @@ psql postgres -c "GRANT ALL PRIVILEGES ON DATABASE volatility_api TO volatility;
 **Option B: Cloud PostgreSQL (Recommended)**
 
 - **Railway.app** (Easy, free tier available)
-  - Sign up, create PostgreSQL database
-  - Copy connection string to `.env`
+  1. Go to https://railway.app and create an account
+  2. Create a new PostgreSQL database
+  3. Copy the connection string from Dashboard
+  4. Add to `.env`:
+```
+     DB_HOST=your-railway-host.railway.app
+     DB_PORT=5432
+     DB_NAME=your_database_name
+     DB_USER=postgres
+     DB_PASS=your_password
+```
 
 - **Supabase** (PostgreSQL + built-in tools)
-  - Free tier includes 500 MB storage
-  - Copy connection string to `.env`
+  1. Go to https://supabase.com and create an account
+  2. Create a new project and PostgreSQL database
+  3. Go to Settings → Database → Connection String
+  4. Copy the connection info and add to `.env`
+  5. Replace `[YOUR-PASSWORD]` with your actual password
 
+- **Heroku PostgreSQL** (Alternative)
+  1. Go to https://heroku.com and create an account
+  2. Create a new app
+  3. Add PostgreSQL add-on (Hobby tier is free)
+  4. Copy DATABASE_URL from Config Vars
+  5. Add to `.env`
+
+     
 ### 4. Create Environment File
 
 Create `.env` in project root:
-
 ```bash
 # Database
 DB_HOST=localhost
@@ -97,7 +113,6 @@ REDIS_URL=redis://localhost:6379
 ```
 
 ### 5. Test Database Connection
-
 ```bash
 python -c "
 import psycopg2
@@ -125,7 +140,6 @@ except Exception as e:
 ## Running the Data Pipeline
 
 ### Option 1: Quick Start (One-time data fetch)
-
 ```bash
 # Run the quick start script
 python quick_start_ingest.py
@@ -133,7 +147,7 @@ python quick_start_ingest.py
 
 This will:
 1. Create tables
-2. Fetch candles for 3 test markets
+2. Fetch candles for test markets
 3. Compute volatility metrics
 4. Display results
 
@@ -148,7 +162,6 @@ Expected output:
 ```
 
 ### Option 2: Continuous Ingestion (For production)
-
 ```bash
 python ingest_service.py
 ```
@@ -170,10 +183,48 @@ python ingest_service.py
 
 ---
 
+## Running the API Server
+
+Start the API with:
+```bash
+python api_server.py
+```
+
+Or with uvicorn directly:
+```bash
+uvicorn api_server:app --reload
+```
+
+The API will be available at: **http://localhost:8000**
+
+### Access Interactive Docs
+```bash
+# Swagger UI
+open http://localhost:8000/api/docs
+
+# ReDoc (alternative documentation)
+open http://localhost:8000/api/redoc
+```
+
+### Test a Health Check
+```bash
+curl http://localhost:8000/health
+```
+
+Expected response:
+```json
+{
+  "status": "healthy",
+  "database": "connected",
+  "timestamp": "2026-01-29T10:15:23Z"
+}
+```
+
+---
+
 ## Verifying Data Collection
 
 ### 1. Check tables exist
-
 ```bash
 psql volatility_api volatility
 # In psql:
@@ -184,7 +235,6 @@ psql volatility_api volatility
 ```
 
 ### 2. Query recent candles
-
 ```bash
 psql volatility_api volatility -c "
   SELECT market_id, timestamp, close, volume 
@@ -195,7 +245,6 @@ psql volatility_api volatility -c "
 ```
 
 ### 3. Check metrics
-
 ```bash
 psql volatility_api volatility -c "
   SELECT market_id, timestamp, volatility_24h, atr 
@@ -210,7 +259,6 @@ psql volatility_api volatility -c "
 ## Common Issues & Fixes
 
 ### "FATAL: database 'volatility_api' does not exist"
-
 ```bash
 # Create the database
 createdb -U volatility volatility_api
@@ -219,7 +267,6 @@ createdb -U volatility volatility_api
 ### "FATAL: password authentication failed"
 
 Check your `.env` file - password must match what you set:
-
 ```bash
 # Reset PostgreSQL password if needed
 psql postgres
@@ -234,155 +281,23 @@ psql postgres
 - Check API status: `curl https://mainnet-api.injective.network/api/exchange/v1/markets`
 
 ### "ModuleNotFoundError: No module named 'psycopg2'"
-
 ```bash
 # Reinstall dependencies
 pip install --upgrade --force-reinstall psycopg2-binary
 ```
 
----
+### "Connection refused" on database connection
 
-## Next Steps: Building the API
-
-Once data collection is stable (you have 100+ candles per market), build the API:
-
-### 1. Create `api_server.py`
-
-```python
-from fastapi import FastAPI
-import psycopg2
-from datetime import datetime
-import os
-
-app = FastAPI(title="Volatility Indicators API")
-
-@app.get("/volatility/{market_id}")
-async def get_volatility(market_id: str):
-    """Get latest volatility metrics for a market"""
-    conn = psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASS")
-    )
-    cursor = conn.cursor()
-    
-    try:
-        cursor.execute("""
-            SELECT timestamp, volatility_24h, bb_upper, bb_middle, bb_lower, atr, momentum
-            FROM volatility_metrics
-            WHERE market_id = %s
-            ORDER BY timestamp DESC
-            LIMIT 1
-        """, (market_id,))
-        
-        row = cursor.fetchone()
-        
-        if not row:
-            return {"error": "Market not found", "market_id": market_id}
-        
-        return {
-            "market_id": market_id,
-            "timestamp": row[0],
-            "volatility_24h": float(row[1]) if row[1] else None,
-            "bollinger_bands": {
-                "upper": float(row[2]) if row[2] else None,
-                "middle": float(row[3]) if row[3] else None,
-                "lower": float(row[4]) if row[4] else None
-            },
-            "atr": float(row[5]) if row[5] else None,
-            "momentum": float(row[6]) if row[6] else None
-        }
-        
-    finally:
-        cursor.close()
-        conn.close()
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-```
-
-### 2. Run API server
-
+Make sure PostgreSQL is running:
 ```bash
-python api_server.py
-# Or:
-uvicorn api_server:app --reload
-```
+# macOS
+brew services start postgresql
 
-### 3. Test endpoint
+# Linux
+sudo systemctl start postgresql
 
-```bash
-curl http://localhost:8000/volatility/0xa508cb32923323679f29d3b7155848cd07e6b40b9a60b5dd85b00d7a4e30fa70
-
-# Response:
-{
-  "market_id": "0xa508cb...",
-  "timestamp": 1706419200,
-  "volatility_24h": 0.0145,
-  "bollinger_bands": {
-    "upper": 52.40,
-    "middle": 50.20,
-    "lower": 48.00
-  },
-  "atr": 1.25,
-  "momentum": 0.05
-}
-```
-
----
-
-## Checklist Before Contest Submission
-
-- [ ] Data pipeline runs without errors
-- [ ] Database contains >100 candles per market
-- [ ] Metrics are computed and stored
-- [ ] API endpoints return valid data
-- [ ] API documentation is clear (README, API docs)
-- [ ] Error handling is robust
-- [ ] Rate limiting implemented (if needed)
-- [ ] Tests written (at minimum, integration tests)
-- [ ] Deployment instructions provided
-- [ ] Example client code (JavaScript/Python)
-
----
-
-## Deployment (when ready)
-
-### Railway.app (Recommended for contest)
-
-```bash
-# Install Railway CLI
-curl -fsSL https://cli.railway.app | bash
-
-# Login
-railway login
-
-# Create project
-railway init
-
-# Add PostgreSQL plugin
-# Set env vars
-# Deploy
-railway up
-```
-
-### Heroku (Alternative)
-
-```bash
-# Install Heroku CLI
-# Login
-heroku login
-
-# Create app
-heroku create volatility-api
-
-# Add PostgreSQL
-heroku addons:create heroku-postgresql:hobby-dev
-
-# Deploy
-git push heroku main
+# Windows
+# Check Services app or use pgAdmin
 ```
 
 ---
@@ -390,7 +305,6 @@ git push heroku main
 ## Monitoring
 
 Keep tabs on your pipeline:
-
 ```bash
 # Check logs
 tail -f ingest.log
@@ -421,6 +335,48 @@ psql volatility_api volatility -c "
 
 ---
 
+## Testing API Endpoints
+
+### Get Market Volatility
+```bash
+curl http://localhost:8000/api/volatility/0xa508cb32923323679f29d3b7155848cd07e6b40b9a60b5dd85b00d7a4e30fa70
+```
+
+### Batch Query Multiple Markets
+```bash
+curl -X POST http://localhost:8000/api/volatility/batch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "market_ids": [
+      "0xa508cb32923323679f29d3b7155848cd07e6b40b9a60b5dd85b00d7a4e30fa70",
+      "0x17ef48032cb9375375e6c2873b92f5837f48f5cbee62e4db0cf076fa368e3e5d"
+    ]
+  }'
+```
+
+### Get Market Ranking
+```bash
+curl http://localhost:8000/api/markets/volatility/ranking?limit=10&sort=desc
+```
+
+### Get Historical Data
+```bash
+curl "http://localhost:8000/api/volatility/0xa508cb32923323679f29d3b7155848cd07e6b40b9a60b5dd85b00d7a4e30fa70/history?days=7"
+```
+
+---
+
+## Next Steps
+
+Once everything is running:
+
+1. **Read API documentation:** [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+2. **Learn the architecture:** [data_pipeline_setup.md](data_pipeline_setup.md)
+3. **Deploy to production:** [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md)
+4. **Integrate with your app:** See JavaScript/Python examples in README
+
+---
+
 ## Support
 
 Stuck? Check:
@@ -428,6 +384,9 @@ Stuck? Check:
 2. PostgreSQL is running: `psql -l`
 3. Dependencies installed: `pip list`
 4. Injective API is accessible: `curl https://mainnet-api.injective.network/api/exchange/v1/markets`
-5. Check application logs
+5. Check application logs for errors
+6. Review common issues section above
+
+For more help, see [API_DOCUMENTATION.md](API_DOCUMENTATION.md) or check the interactive docs at `/api/docs`
 
 Good luck! 🚀
