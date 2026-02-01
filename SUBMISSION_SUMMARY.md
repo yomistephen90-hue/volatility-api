@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Volatility Indicators API** is a production-grade REST API that provides real-time volatility metrics and technical indicators for Injective Protocol markets. This is **developer infrastructure** — clean, reusable endpoints that other builders integrate into trading bots, dashboards, and risk management systems.
+**Volatility Indicators API** is a production grade REST API that provides real-time volatility metrics and technical indicators for Injective Protocol markets. This is **developer infrastructure** clean, reusable endpoints that other builders integrate into trading bots, dashboards, and risk management systems.
 
 **In short:** The infrastructure layer that Injective developers need.
 
@@ -273,8 +273,7 @@ CREATE TABLE candles (
 | **Docker** | 5 min | Your infra | 99.99% |
 | **AWS** | 30 min | Pay-as-you-go | 99.99% |
 
-See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md) for detailed deployment instructions.
-
+For detailed deployment instructions, see [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md).
 ---
 
 ## Getting Started
