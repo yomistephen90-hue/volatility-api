@@ -1,18 +1,10 @@
-# Ninja API Forge - Submission Summary
+# Volatility Indicators API - Project Summary
 
-## Project: Volatility Indicators API
+## Project Overview
 
-**Submission Date:** January 29, 2026  
-**Contest Duration:** Jan 28 - Feb 15, 2026  
-**Category:** Developer API Infrastructure  
+**Volatility Indicators API** is a production-grade REST API that provides real-time volatility metrics and technical indicators for Injective Protocol markets. This is **developer infrastructure** — clean, reusable endpoints that other builders integrate into trading bots, dashboards, and risk management systems.
 
----
-
-## Executive Summary
-
-**Volatility Indicators API** is a production-grade REST API that provides real-time volatility metrics and technical indicators for Injective Protocol markets. Unlike consumer applications, this focuses on **developer infrastructure** — exposing clean, reusable endpoints that other builders can integrate into trading bots, dashboards, and risk management systems.
-
-**In short:** We built the infrastructure layer that developers on Injective have been asking for.
+**In short:** The infrastructure layer that Injective developers need.
 
 ---
 
@@ -38,7 +30,7 @@
 
 **Files:**
 - `api_server.py` - 700+ line FastAPI application
-- `test_api.py` - Comprehensive test suite (in TESTING_DEPLOYMENT.md)
+- `test_api.py` - Comprehensive test suite
 
 ### 3. Developer Experience
 - **Interactive Docs:** Swagger UI at `/api/docs` - try endpoints live
@@ -84,10 +76,10 @@ Instantly find high/low volatility opportunities
 
 ---
 
-## Why This Wins
+## Why This Matters
 
 ### 1. **Solves Real Problems**
-Developers on Injective have asked for:
+Developers on Injective need:
 - "How do I get volatility without calculating it myself?"
 - "Where can I find high-vol trading opportunities?"
 - "How should I size positions based on volatility?"
@@ -95,13 +87,13 @@ Developers on Injective have asked for:
 **Answer:** This API. ✓
 
 ### 2. **Infrastructure First**
-Unlike 99% of contest submissions that build apps, we built **infrastructure**:
+Unlike most projects that build applications, we built **infrastructure**:
 - Other developers can build on top of this
 - Multiple use cases (bots, dashboards, protocols)
 - Reusable, composable components
 
 ### 3. **Production Ready**
-Not a POC. This is genuinely usable:
+Not a proof-of-concept. This is genuinely production-grade:
 - 50+ automated tests ✓
 - Comprehensive documentation ✓
 - Docker deployment ✓
@@ -134,7 +126,7 @@ Not a POC. This is genuinely usable:
   ├── quick_start_ingest.py          Data ingestion with examples
   ├── requirements.txt               Python dependencies
 
-📄 Documentation (Comprehensive)
+📄 Documentation
   ├── README.md                      Master overview
   ├── SETUP_GUIDE.md                 5-minute setup
   ├── API_DOCUMENTATION.md           Complete API reference
@@ -151,7 +143,7 @@ Not a POC. This is genuinely usable:
 
 ---
 
-## Metrics & Performance
+## Performance Metrics
 
 ### Coverage
 - **Injective Markets:** 50+ tracked pairs
@@ -281,7 +273,39 @@ CREATE TABLE candles (
 | **Docker** | 5 min | Your infra | 99.99% |
 | **AWS** | 30 min | Pay-as-you-go | 99.99% |
 
-We recommend **Railway.app** for contest due to simplicity.
+See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md) for detailed deployment instructions.
+
+---
+
+## Getting Started
+
+### Quick Evaluation (16 minutes)
+
+1. **Read:** Start with README.md (5 min)
+2. **Setup:** Follow SETUP_GUIDE.md (5 min)
+3. **Run:** `python api_server.py` (1 min)
+4. **Try:** Open http://localhost:8000/api/docs (2 min)
+5. **Test:** Run `pytest test_api.py -v` (3 min)
+
+### Full Integration
+
+1. **Deploy:** Follow [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md)
+2. **Build:** Create your application using the API
+3. **Scale:** Monitor with health endpoints
+
+---
+
+## Key Strengths
+
+| Aspect | This API | Typical Project |
+|--------|----------|-----------------|
+| **Purpose** | Infrastructure for others | Self-contained app |
+| **Reusability** | 5+ use cases | 1 use case |
+| **Technical Depth** | Algorithms, design patterns | UI/UX focus |
+| **Documentation** | Comprehensive | Basic |
+| **Test Coverage** | 50+ tests | Maybe a few |
+| **Deployment** | Multiple options | Single platform |
+| **Long-term Value** | Keeps growing | Static |
 
 ---
 
@@ -292,6 +316,7 @@ We recommend **Railway.app** for contest due to simplicity.
 - **SETUP_GUIDE.md** - Step-by-step setup (5 minutes)
 - **API_DOCUMENTATION.md** - Complete API reference (2000+ words)
 - **TESTING_DEPLOYMENT.md** - Testing & production deployment
+- **data_pipeline_setup.md** - Architecture & technical details
 
 ### Code (Production Ready)
 - **api_server.py** - FastAPI server (700+ lines, fully typed)
@@ -306,113 +331,48 @@ We recommend **Railway.app** for contest due to simplicity.
 
 ---
 
-## How to Evaluate
-
-1. **Read:** Start with README.md (5 min)
-2. **Setup:** Follow SETUP_GUIDE.md (5 min)
-3. **Run:** `python api_server.py` (1 min)
-4. **Try:** Open http://localhost:8000/api/docs (2 min)
-5. **Test:** Run `pytest test_api.py -v` (3 min)
-
-**Total time to evaluate:** 16 minutes
-
----
-
-## Why Choose Volatility Indicators?
-
-| Aspect | This API | Typical App |
-|--------|----------|-------------|
-| **Purpose** | Infrastructure for others | Self-contained app |
-| **Reusability** | 5+ use cases | 1 use case |
-| **Technical Depth** | Algorithms, design patterns | UI/UX focus |
-| **Documentation** | Comprehensive | Basic |
-| **Test Coverage** | 50+ tests | Maybe a few |
-| **Deployment** | Multiple options | Single platform |
-| **Long-term Value** | Keeps growing | Static |
-
----
-
-## Metrics That Matter
+## Quality Metrics
 
 ✓ **Clean API Design** - Intuitive endpoints that are self-explanatory  
 ✓ **Developer Experience** - Everything developers need to integrate  
 ✓ **Reliability** - Error handling, retries, health checks  
 ✓ **Performance** - Sub-100ms queries, high throughput  
-✓ **Documentation** - You can understand & deploy everything  
+✓ **Documentation** - Comprehensive guides and examples  
 ✓ **Scalability** - Architecture supports 10,000+ markets  
 ✓ **Testability** - Comprehensive test suite  
 ✓ **Practical** - Solves real problems developers face  
 
 ---
 
-## Key Differentiators
+## Differentiators
 
 1. **Not a Dashboard** - We built infrastructure that powers dashboards
 2. **Not a Trading Bot** - We built the data layer that bots use
-3. **Not a Simple Wrapper** - We engineered a complete system with proper DB, async pipeline, calculations
+3. **Not a Simple Wrapper** - Complete system with DB, async pipeline, calculations
 4. **Not Overengineered** - Every component serves a clear purpose
 
 ---
 
-## What Judges Will See
+## Next Steps
 
-### Code Quality
-- Well-structured, typed Python
-- Proper error handling
-- Efficient algorithms
-- Clean API design
-
-### Documentation
-- Professional markdown docs
-- Code examples in multiple languages
-- Architecture diagrams
-- Clear setup instructions
-
-### Functionality
-- Working API you can test
-- Real Injective data
-- Proper financial calculations
-- Comprehensive feature set
-
-### Deployment
-- Multiple hosting options
-- Docker support
-- Health monitoring
-- Production-ready
+1. **Explore:** Read [README.md](README.md) for overview
+2. **Setup:** Follow [SETUP_GUIDE.md](SETUP_GUIDE.md) (5 minutes)
+3. **Learn:** Check [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for all endpoints
+4. **Deploy:** See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md) for production setup
+5. **Build:** Create your application using this API
 
 ---
 
-## Summary
+## Support & Documentation
 
-**Volatility Indicators API** is a professional-grade developer API that:
+**Questions about setup?** → See [SETUP_GUIDE.md](SETUP_GUIDE.md)
 
-1. **Solves real problems** - Developers need volatility metrics
-2. **Enables 5+ use cases** - Trading bots, dashboards, protocols, strategies
-3. **Is production ready** - Tests, docs, deployment, monitoring
-4. **Shows technical depth** - Proper calculations, architecture, optimization
-5. **Has excellent documentation** - You can understand and deploy it
+**API reference?** → Check [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
-**Result:** A valuable infrastructure piece for the Injective ecosystem.
+**Deployment options?** → Review [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md)
+
+**Architecture details?** → Read [data_pipeline_setup.md](data_pipeline_setup.md)
 
 ---
 
-## Next Steps for You
-
-1. **Deploy it:** Follow SETUP_GUIDE.md (5 min)
-2. **Test it:** Open http://localhost:8000/api/docs
-3. **Use it:** Query real Injective market data
-4. **Build on it:** Create your own app using this API
-
-The hard part (infrastructure) is done. The easy part (building with it) comes next.
-
----
-
-**Ready?** → Start with [SETUP_GUIDE.md](SETUP_GUIDE.md)
-
-**Questions?** → Check [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
-
-**Want to deploy?** → See [TESTING_DEPLOYMENT.md](TESTING_DEPLOYMENT.md)
-
----
-
-**Built for Ninja API Forge | Injective Protocol | Jan 2026**
+**Built with ❤️ for Injective traders, devs, and builders**
