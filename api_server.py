@@ -671,16 +671,13 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    
-    host = os.getenv("API_HOST", "0.0.0.0")
-    port = int(os.getenv("API_PORT", 8000))
-    
-    logger.info(f"Starting server on {host}:{port}")
-    
+
+    host = "0.0.0.0"
+    port = int(os.environ.get("PORT", 8000))  # ← FIX
+
     uvicorn.run(
         "api_server:app",
         host=host,
         port=port,
-        reload=os.getenv("DEBUG", "False") == "True",
         access_log=True
     )
