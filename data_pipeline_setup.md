@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide walks you through building a complete data ingestion pipeline that pulls OHLCV data from Injective and stores it efficiently for volatility metric calculations.
+This guide walks builders through building a complete data ingestion pipeline that pulls OHLCV data from Injective and stores it efficiently for volatility metric calculations.
 
 ---
 
